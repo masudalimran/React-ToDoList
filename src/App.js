@@ -17,6 +17,8 @@ function App() {
   );
   const [searchItem, setSearchItem] = useState("");
   const [report, setReport] = useState("")
+  const [skypeName, setSkypeName] = useState(
+    JSON.parse(localStorage.getItem("skypeUser")) || "");
 
   // Save In Local Storage
   const setAndSaveItems = (newItems) => {
@@ -27,6 +29,11 @@ function App() {
   const saveName = (name) => {
     setNewName(name);
     localStorage.setItem("userName", JSON.stringify(name));
+  };
+
+  const saveSkypeName = (s) => {
+    setSkypeName(s);
+    localStorage.setItem("skypeUser", JSON.stringify(s));
   };
 
   // Add Item
@@ -61,13 +68,23 @@ function App() {
   };
 
   // Function to change name
-  const changeName = (name) => {
-    saveName(name);
+  const changeName = (user) => {
+    saveName(user);
   };
 
   const handleNameChange = () => {
     if (!newName) return;
     changeName(newName);
+  };
+
+  // Function to add Skype User
+  const changeSkypeName = (user) => {
+    saveSkypeName(user);
+  };
+
+  const handleSkypeName = () => {
+    if (!skypeName) return;
+    changeSkypeName(skypeName);
   };
 
   // Handle Report
@@ -80,19 +97,20 @@ function App() {
         reportMessage = reportMessage.concat(
           items[i].item,
           " - Not Completed, "
-        );
+          );
+        }
       }
-    }
-    setReport(reportMessage)    
+      setReport(reportMessage)    
   };
 
   const copyReport =() => {
     navigator.clipboard.writeText(report)
     setReport("")
-    var skypename = "masud alimran";
-    window.location = "skype:" + skypename + "?chat";
+    // var skypename = "masud alimran";
+    window.location = "skype:" + skypeName + "?chat";
   }
-
+  // Handle Report
+  
   return (
     <div className="App">
       <Header title={newName} />
@@ -108,9 +126,14 @@ function App() {
         )}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
+        
         newName={newName}
         setNewName={setNewName}
         handleNameChange={handleNameChange}
+
+        skypeName={skypeName}
+        setSkypeName={setSkypeName}
+        handleSkypeName={handleSkypeName}
       />
       <Report
         copyReport = {copyReport}
