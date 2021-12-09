@@ -30,7 +30,7 @@ export default function Content({
   };
 
   return (
-    <main>
+    <>
       <p>Hello {newName}!</p>
       <div>
         <button className="changeName" onClick={viewNameForm}>
@@ -68,6 +68,6 @@ export default function Content({
       ) : (
         <p style={{ marginTop: "2rem" }}>Your List Is Empty</p>
       )}
-    </main>
+    </>
   );
 }
